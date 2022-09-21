@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
-
+const connectMongo = require('./util/database').connectMongo
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -21,4 +21,8 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000);
+connectMongo(() => {
+    app.listen(3000, () => {
+        console.log('Server is running on the port 3000!!!');
+    });
+})
